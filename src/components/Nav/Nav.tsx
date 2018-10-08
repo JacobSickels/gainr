@@ -2,87 +2,77 @@ import * as React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Avatar from "@material-ui/core/Avatar";
 // tslint:disable-next-line:import-name
 import MenuIcon from "@material-ui/icons/Menu";
-import "./Nav.css";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { userLoggingIn, userLoggingOut } from "../../actions/userAuth";
+import { auth, provider } from "../../firebase";
+import { NavProps } from "./NavContainer";
 
-interface NavProps {
-  loggedInUser?: string;
-  userLoggingIn: (user: string) => string;
-  userLoggingOut: () => null;
+interface ExternalProps {
+  anchorEl: null | HTMLElement;
+  handleMenuClick: (event: any) => void;
+  handleMenuClose: () => void;
+  userLoggingIn: (user: firebase.UserInfo) => any;
+  userLoggingOut: () => void;
 }
 
-// add in the typescript/inline className declarations and remove the CSS file/import??
-
-class Nav extends React.Component<NavProps> {
-  render() {
-    return (
-      <div className="root">
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              className="menuButton"
+export const NAV = (props: ExternalProps & NavProps) => {
+  return (
+    <div className="root">
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton className="menuButton" color="inherit" aria-label="Menu">
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="title" color="inherit" className="grow">
+            NavBarrrrr
+          </Typography>
+          {props.firebaseUser ? (
+            <>
+              <Avatar
+                onClick={props.handleMenuClick}
+                alt="User Avatar"
+                src={
+                  props.firebaseUser.photoURL ? props.firebaseUser.photoURL : ""
+                }
+                style={{ cursor: "pointer" }}
+              />
+              <Menu
+                id="simple-menu"
+                anchorEl={props.anchorEl}
+                open={Boolean(props.anchorEl)}
+                onClose={props.handleMenuClose}
+              >
+                <MenuItem>Profile</MenuItem>
+                <MenuItem>My account</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    auth.signOut();
+                    props.userLoggingOut();
+                    props.handleMenuClose();
+                  }}
+                >
+                  Logout
+                </MenuItem>
+              </Menu>
+            </>
+          ) : (
+            <Button
               color="inherit"
-              aria-label="Menu"
+              onClick={async () => {
+                const firebaseUser = await auth.signInWithPopup(provider); // login with firebase
+                props.userLoggingIn(firebaseUser.user as firebase.UserInfo);
+              }}
             >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="title" color="inherit" className="grow">
-              NavBarrrrr
-            </Typography>
-            {!this.props.loggedInUser ? (
-              <Button
-                color="inherit"
-                onClick={() => this.props.userLoggingIn("John")}
-              >
-                Login
-              </Button>
-            ) : (
-              <Button
-                color="inherit"
-                onClick={() => this.props.userLoggingOut()}
-              >
-                Logout
-              </Button>
-            )}
-          </Toolbar>
-        </AppBar>
-      </div>
-    );
-  }
-}
-
-interface NavState {
-  authentication: {
-    loggedInUser?: string;
-  };
-}
-
-const mapStateToProps = (state: NavState) => {
-  return {
-    loggedInUser: state.authentication.loggedInUser
-  };
+              Login
+            </Button>
+          )}
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
 };
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    userLoggingIn: (user: string) => {
-      dispatch(userLoggingIn(user));
-    },
-    userLoggingOut: () => {
-      dispatch(userLoggingOut());
-    }
-  };
-};
-
-const CONNECTED_NAV = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Nav);
-
-export default CONNECTED_NAV;

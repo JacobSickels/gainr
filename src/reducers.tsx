@@ -2,20 +2,20 @@ import userAuth from "./actions/userAuth";
 
 interface ActionType {
   type: string;
-  loggedInUser: string;
+  firebaseUser: string;
 }
 
 const authentication = (
   state = {
-    loggedInUser: null
+    firebaseUser: null
   },
   action: ActionType
 ) => {
   switch (action.type) {
     case userAuth.LOG_IN:
-      return { ...state, loggedInUser: action.loggedInUser };
+      return { ...state, firebaseUser: action.firebaseUser };
     case userAuth.LOG_OUT:
-      return { loggedInUser: null, authKey: null, url: null };
+      return { firebaseUser: null, authKey: null, url: null };
     default:
       return state;
   }

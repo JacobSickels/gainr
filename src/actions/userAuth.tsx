@@ -3,8 +3,8 @@ enum userAuth {
   LOG_OUT = "USER_LOGGED_OUT"
 }
 
-export const userLoggingIn = (loggedInUser: string) => ({
-  loggedInUser,
+export const userLoggingIn = (firebaseUser: firebase.UserInfo) => ({
+  firebaseUser,
   type: userAuth.LOG_IN
 });
 

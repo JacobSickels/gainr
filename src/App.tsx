@@ -2,7 +2,7 @@ import * as React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./components/Home/Home";
-import Nav from "./components/Nav/Nav";
+import NavContainer from "./components/Nav/NavContainer";
 
 import logoPng from "./logo.png";
 
@@ -11,7 +11,7 @@ class App extends React.Component {
     return (
       <Router>
         <div className="App">
-          <Nav />
+          <NavContainer />
           <Route path="/" component={Home} />
           <header className="App-header">
             <img src={logoPng} className="App-logo" alt="logo" />

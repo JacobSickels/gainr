@@ -1,7 +1,7 @@
 import * as React from "react";
 
 interface HomeProps {
-  loggedInUser?: any;
+  firebaseUser?: any;
   user?: any;
 }
 
