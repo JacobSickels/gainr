@@ -1,7 +1,6 @@
 import * as React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
@@ -11,6 +10,7 @@ import Avatar from "@material-ui/core/Avatar";
 import MenuIcon from "@material-ui/icons/Menu";
 import { auth, provider } from "../../firebase";
 import { NavProps } from "./NavContainer";
+import NavTitle from "./NavTitle";
 
 interface ExternalProps {
   anchorEl: null | HTMLElement;
@@ -28,9 +28,7 @@ export const NAV = (props: ExternalProps & NavProps) => {
           <IconButton className="menuButton" color="inherit" aria-label="Menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="title" color="inherit" className="grow">
-            NavBarrrrr
-          </Typography>
+          <NavTitle />
           {props.firebaseUser ? (
             <>
               <Avatar

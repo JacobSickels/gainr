@@ -22,7 +22,6 @@ const store: Store<InitialState> = createStore(
   combineReducers(reducers),
   composeEnhancers()
 );
-
 ReactDOM.render(
   <Provider store={store}>
     <App />

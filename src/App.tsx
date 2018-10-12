@@ -3,24 +3,22 @@ import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./components/Home/Home";
 import NavContainer from "./components/Nav/NavContainer";
+import GoalsContainer from "./components/Goals/GoalsContainer";
 
-import logoPng from "./logo.png";
+import { goalList } from "./testing/data_fixtures";
 
 class App extends React.Component {
   public render() {
     return (
       <Router>
-        <div className="App">
+        <>
           <NavContainer />
-          <Route path="/" component={Home} />
-          <header className="App-header">
-            <img src={logoPng} className="App-logo" alt="logo" />
-            <h1 className="App-title">Welcome to Gainr</h1>
-            <h2>
-              <i>Take it up a step.</i>
-            </h2>
-          </header>
-        </div>
+          <Route path="/" component={Home} exact={true} />
+          <Route
+            path="/Goals"
+            render={() => <GoalsContainer goals={goalList} />}
+          />
+        </>
       </Router>
     );
   }
