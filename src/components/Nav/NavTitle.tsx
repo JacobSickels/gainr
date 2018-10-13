@@ -21,7 +21,12 @@ const getPathSuffix = (pathname: string): string =>
 class NavTitle extends React.Component<NavTitleProps> {
   render() {
     return (
-      <Typography variant="title" color="inherit" className="grow">
+      <Typography
+        style={{ textAlign: "center" }}
+        variant="title"
+        color="inherit"
+        className="grow"
+      >
         {getPathSuffix(this.props.location.pathname)}
       </Typography>
     );
